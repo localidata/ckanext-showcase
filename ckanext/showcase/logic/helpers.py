@@ -47,3 +47,11 @@ def get_package_showcase_list(package_id):
     except:
         return []
     return showcases
+
+def get_showcase_package_list(showcase_id):
+    packages = []
+    try:
+        packages = tk.get_action('ckanext_showcase_package_list')({},{'showcase_id':showcase_id})
+    except:
+        return []
+    return packages
