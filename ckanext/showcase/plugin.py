@@ -100,7 +100,7 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
             'get_site_statistics': showcase_helpers.get_site_statistics,
             'get_recent_showcase_list': showcase_helpers.get_recent_showcase_list,
             'get_package_showcase_list': showcase_helpers.get_package_showcase_list,
-            'get_showcase_package_list': showcase_helpers.get_showcase_package_list
+            'get_value_from_showcase_extras': showcase_helpers.get_value_from_showcase_extras
         }
 
     # IFacets
@@ -231,6 +231,9 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
         # Rendered notes
         pkg_dict[u'showcase_notes_formatted'] = \
             h.render_markdown(pkg_dict['notes'])
+
+        # Add redirect_link flag
+        pkg_dict[u'redirect_link'] = pkg_dict.get('redirect_link', False)
         return pkg_dict
 
     def after_show(self, context, pkg_dict):
