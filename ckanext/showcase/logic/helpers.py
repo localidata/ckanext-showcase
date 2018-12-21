@@ -48,10 +48,9 @@ def get_package_showcase_list(package_id):
         return []
     return showcases
 
-def get_showcase_package_list(showcase_id):
-    packages = []
-    try:
-        packages = tk.get_action('ckanext_showcase_package_list')({},{'showcase_id':showcase_id})
-    except:
-        return []
-    return packages
+def get_value_from_showcase_extras(extras, key):
+    value = ''
+    for item in extras:
+        if item.get('key') == key:
+            value = item.get('value')
+    return value
