@@ -2580,6 +2580,9 @@ $(this).find("h3").arrt({
             $(this).find("h3").first().attr({
                 'id': 'slick-slide' + _.instanceUid + i + ''
             })
+            $(this).find("a").first().attr({
+                'aria-labelledby': 'slick-slide' + _.instanceUid + i + ''
+            })
         });
 
         if (_.$dots !== null) {
