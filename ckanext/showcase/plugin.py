@@ -50,7 +50,6 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
     def update_config(self, config):
         tk.add_template_directory(config, 'templates')
         tk.add_public_directory(config, 'public')
-        tk.add_resource('fanstatic', 'showcase')
         if tk.check_ckan_version(min_version='2.4'):
             tk.add_ckan_admin_tab(config, 'ckanext_showcase_admins',
                                   'Showcase Config')
@@ -97,10 +96,7 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
     def get_helpers(self):
         return {
             'facet_remove_field': showcase_helpers.facet_remove_field,
-            'get_site_statistics': showcase_helpers.get_site_statistics,
-            'get_recent_showcase_list': showcase_helpers.get_recent_showcase_list,
-            'get_package_showcase_list': showcase_helpers.get_package_showcase_list,
-            'get_value_from_showcase_extras': showcase_helpers.get_value_from_showcase_extras
+            'get_site_statistics': showcase_helpers.get_site_statistics
         }
 
     # IFacets
@@ -128,8 +124,6 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
                 ckanext.showcase.logic.auth.showcase_package_list,
             'ckanext_package_showcase_list':
                 ckanext.showcase.logic.auth.package_showcase_list,
-            'ckanext_organization_showcase_list':
-                ckanext.showcase.logic.auth.organization_showcase_list,
             'ckanext_showcase_admin_add':
                 ckanext.showcase.logic.auth.add_showcase_admin,
             'ckanext_showcase_admin_remove':
@@ -151,16 +145,16 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
             m.connect('ckanext_showcase_delete', '/showcase/delete/{id}',
                       action='delete')
             m.connect('ckanext_showcase_read', '/showcase/{id}', action='read',
-                      ckan_icon='picture-o')
+                      ckan_icon='picture')
             m.connect('ckanext_showcase_edit', '/showcase/edit/{id}',
                       action='edit', ckan_icon='edit')
             m.connect('ckanext_showcase_manage_datasets',
                       '/showcase/manage_datasets/{id}',
                       action="manage_datasets", ckan_icon="sitemap")
             m.connect('dataset_showcase_list', '/dataset/showcases/{id}',
-                      action='dataset_showcase_list', ckan_icon='picture-o')
+                      action='dataset_showcase_list', ckan_icon='picture')
             m.connect('ckanext_showcase_admins', '/ckan-admin/showcase_admins',
-                      action='manage_showcase_admins', ckan_icon='picture-o'),
+                      action='manage_showcase_admins', ckan_icon='picture'),
             m.connect('ckanext_showcase_admin_remove',
                       '/ckan-admin/showcase_admin_remove',
                       action='remove_showcase_admin')
@@ -190,8 +184,6 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
                 ckanext.showcase.logic.action.get.showcase_package_list,
             'ckanext_package_showcase_list':
                 ckanext.showcase.logic.action.get.package_showcase_list,
-            'ckanext_organization_showcase_list':
-                ckanext.showcase.logic.action.get.organization_showcase_list,
             'ckanext_showcase_admin_add':
                 ckanext.showcase.logic.action.create.showcase_admin_add,
             'ckanext_showcase_admin_remove':
@@ -231,9 +223,6 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
         # Rendered notes
         pkg_dict[u'showcase_notes_formatted'] = \
             h.render_markdown(pkg_dict['notes'])
-
-        # Add redirect_link flag
-        pkg_dict[u'redirect_link'] = pkg_dict.get('redirect_link', False)
         return pkg_dict
 
     def after_show(self, context, pkg_dict):

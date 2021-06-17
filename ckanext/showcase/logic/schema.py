@@ -18,8 +18,7 @@ from ckan.logic.schema import (default_tags_schema,
 
 from ckanext.showcase.logic.validators import (
     convert_package_name_or_id_to_id_for_type_dataset,
-    convert_package_name_or_id_to_id_for_type_showcase,
-    convert_organization_name_or_id_to_id)
+    convert_package_name_or_id_to_id_for_type_showcase)
 
 
 def showcase_base_schema():
@@ -46,9 +45,6 @@ def showcase_base_schema():
         'image_url': [toolkit.get_validator('ignore_missing'),
                       toolkit.get_converter('convert_to_extras')],
         'original_related_item_id': [
-            toolkit.get_validator('ignore_missing'),
-            toolkit.get_converter('convert_to_extras')],
-        'redirect_link': [
             toolkit.get_validator('ignore_missing'),
             toolkit.get_converter('convert_to_extras')]
     }
@@ -112,9 +108,6 @@ def showcase_show_schema():
                       toolkit.get_validator('ignore_missing')],
         'original_related_item_id': [
             toolkit.get_converter('convert_from_extras'),
-            toolkit.get_validator('ignore_missing')],
-        'redirect_link': [
-            toolkit.get_converter('convert_from_extras'),
             toolkit.get_validator('ignore_missing')]
     })
 
@@ -126,9 +119,7 @@ def showcase_package_association_create_schema():
         'package_id': [not_empty, unicode,
                        convert_package_name_or_id_to_id_for_type_dataset],
         'showcase_id': [not_empty, unicode,
-                        convert_package_name_or_id_to_id_for_type_showcase],
-        'organization_id': [ignore_missing, unicode,
-                        convert_organization_name_or_id_to_id]
+                        convert_package_name_or_id_to_id_for_type_showcase]
     }
     return schema
 
@@ -149,14 +140,6 @@ def package_showcase_list_schema():
     schema = {
         'package_id': [not_empty, unicode,
                        convert_package_name_or_id_to_id_for_type_dataset]
-    }
-    return schema
-
-
-def organization_showcase_list_schema():
-    schema = {
-        'organization_id': [ignore_missing, unicode,
-                       convert_organization_name_or_id_to_id]
     }
     return schema
 
